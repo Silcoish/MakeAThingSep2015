@@ -1,22 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class hacky : MonoBehaviour {
+public class CameraManager : MonoBehaviour
+{
 
 	public GameObject cars;
 	public Transform[] carPos;
-	
+
 	// Update is called once per frame
 	void Start()
 	{
 		carPos = new Transform[cars.transform.childCount];
-		for(int i = 0; i < cars.transform.childCount; i++)
+		for (int i = 0; i < cars.transform.childCount; i++)
 		{
 			carPos[i] = cars.transform.GetChild(i);
 		}
 	}
 
-	void Update () {
+	void Update()
+	{
 		/*float minX = 99999;
 		float maxX = 0;
 		float minY = 99999;

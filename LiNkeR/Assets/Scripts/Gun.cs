@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using XInputDotNetPure;
 
@@ -29,7 +29,6 @@ public class Gun : MonoBehaviour {
 		float angle = Mathf.Atan2(-inputDirection.y, -inputDirection.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-		print (currState.Triggers.Right);
 		if(currState.Triggers.Right >= 0.5f && counter >= cooldown)
 		{
 			counter = 0;
