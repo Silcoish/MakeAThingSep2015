@@ -33,6 +33,7 @@ public class Gun : MonoBehaviour {
 		{
 			counter = 0;
 			GameObject bul = (GameObject)Instantiate(bullet, instantiatePoint.transform.position, transform.rotation);
+			bul.tag = "Bullet";
 			bul.GetComponent<Rigidbody2D>().AddForce((Vector2)bul.transform.right * - 100f);
 		}
 	}
