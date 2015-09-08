@@ -12,7 +12,11 @@ public class SpawnCars : MonoBehaviour {
 		{
 			GameObject tempChild = (GameObject)Instantiate(cars[i], transform.GetChild(i).transform.position, Quaternion.identity);
 			tempChild.transform.parent = gameObject.transform;
-			tempChild.GetComponent<Vehicle>().playerID = i;
+			Vehicle v = tempChild.GetComponent<Vehicle>(); 
+			v.playerID = i;
+			float pitchVariation = Random.Range(-0.4f, 0.4f);
+			v.minEnginePitch += pitchVariation;
+			v.maxEnginePitch += pitchVariation;
 			carsToSend[i] = tempChild;
 		}
 
