@@ -5,6 +5,7 @@ using XInputDotNetPure;
 public class Vehicle : MonoBehaviour {
 
 	[SerializeField] public int playerID = 0;
+	public GameObject linkedCar;
 	[SerializeField] float health = 100f;
 	[SerializeField] float speed;
 	[SerializeField] float maxAcceleration;
