@@ -13,9 +13,15 @@ public class CheckPoint : MonoBehaviour {
 			if(id == 0)
 				return;
 
-			if(col.GetComponent<Vehicle>().checkPointID == (id - 1))
+			Vehicle tempV = col.GetComponent<Vehicle>();
+			if(tempV.checkPointID == (id - 1))
 			{
-				col.GetComponent<Vehicle>().checkPointID = id;
+				tempV.checkPointID = id;
+				if(isFinishLine)
+				{
+					tempV.lap++;
+					tempV.checkPointID = 0;
+				}
 			}
 		}
 	}

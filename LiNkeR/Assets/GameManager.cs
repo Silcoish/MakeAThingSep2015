@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour {
 						}
 						else if(racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
 						{
-							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild(racePositions[i].checkPointID).position);
-							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild(racePositions[i - 1].checkPointID).position);
+							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild(racePositions[i].checkPointID + 1).position);
+							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild(racePositions[i - 1].checkPointID + 1).position);
 
 							if(dis < dis1)
 							{
@@ -59,8 +59,21 @@ public class GameManager : MonoBehaviour {
 								sorted = false;
 							}
 						}
+
+						if(racePositions[i].lap > racePositions[i - 1].lap)
+						{
+							Vehicle temp = racePositions[i];
+							racePositions[i] = racePositions[i - 1];
+							racePositions[i - 1] = temp;
+							sorted = false;
+						}
 					}
 				}
+			}
+
+			for(int j = 0; j < 4; j++)
+			{
+				racePositions[j].positionText.text = (j + 1).ToString();
 			}
 		}
 	}

@@ -18,6 +18,9 @@ public class Vehicle : MonoBehaviour {
 	[SerializeField] public float minEnginePitch;
 	[SerializeField] public float maxEnginePitch;
 
+	[SerializeField] public TextMesh positionText;
+	[SerializeField] AudioClip collisionSound;
+
 	public float boostSpeed = 1.0f;
 	public float boostTimer = 1.0f;
 	public float boostCounter = 0.0f;
@@ -29,6 +32,7 @@ public class Vehicle : MonoBehaviour {
 
 	public int currentPosition;
 	public int checkPointID = 0;
+	public int lap = 0;
 
 	Vector2 inputDirection;
 
@@ -153,5 +157,7 @@ public class Vehicle : MonoBehaviour {
 			health -= 1;
 			Destroy(col.gameObject);
 		}
+
+		AudioSource.PlayClipAtPoint(collisionSound, Vector2.zero);
 	}
 }
