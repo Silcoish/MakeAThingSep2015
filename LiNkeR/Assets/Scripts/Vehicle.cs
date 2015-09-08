@@ -21,10 +21,17 @@ public class Vehicle : MonoBehaviour {
 	public float boostSpeed = 1.0f;
 	public float boostTimer = 1.0f;
 	public float boostCounter = 0.0f;
+
 	public float terrainMultiplyer = 1.0f;
+
 	bool isAccelerating = false;
 	float acceleration;
+
+	public int currentPosition;
+	public int checkPointID = 0;
+
 	Vector2 inputDirection;
+
 	Rigidbody2D rigid;
 
 	GamePadState prevState;
