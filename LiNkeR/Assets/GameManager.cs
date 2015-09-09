@@ -5,51 +5,68 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager inst;
+
 	public GameObject checkPointManager;
+	public int checkPointsPerLap;
 	public GameObject carsParent;
 	Vehicle[] racePositions = new Vehicle[4];
 
-	void Start () {
+	bool set = false;
+
+	void Awake () {
 		if(GameManager.inst == null)
-			GameManager.inst = this;
+			inst = this;
 		else
 			Destroy(this);
 	}
 
 	void Update()
 	{
-		DetermineRacePositions();
+		if(!set)
+		{
+			if(carsParent.transform.GetChild(0).GetComponent<Vehicle>() != null)
+			{
+				racePositions = new Vehicle[4];
+				for(int i = 0; i < 4; i++)
+				{
+					racePositions[i] = carsParent.transform.GetChild(i).GetComponent<Vehicle>();
+				}
+				set = true;
+			}
+		}
+		else
+		{
+			DetermineRacePositions();
+		}
 	}
 
 	void DetermineRacePositions()
 	{
 		if(carsParent.transform.GetChild(0).GetComponent<Vehicle>() != null)
 		{
-			racePositions = new Vehicle[4];
-			for(int i = 0; i < 4; i++)
-			{
-				racePositions[i] = carsParent.transform.GetChild(i).GetComponent<Vehicle>();
-			}
 
 			bool sorted = false;
+			int counter = 0;
 			while(!sorted)
 			{
+				counter++;
+				if(counter > 100)
+				{
+					print ("Early exit");
+					return;
+				}
+
 				sorted = true;
 				for(int i = 0; i < 4; i++)
 				{
 					if(i != 0)
 					{
-						if(racePositions[i].checkPointID > racePositions[i - 1].checkPointID)
+
+						if(racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
 						{
-							Vehicle temp = racePositions[i];
-							racePositions[i] = racePositions[i - 1];
-							racePositions[i - 1] = temp;
-							sorted = false;
-						}
-						else if(racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
-						{
-							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild(racePositions[i].checkPointID + 1).position);
-							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild(racePositions[i - 1].checkPointID + 1).position);
+							print ("fml: " + ((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1));
+							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
+							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild((racePositions[i - 1].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
 
 							if(dis < dis1)
 							{
@@ -60,13 +77,21 @@ public class GameManager : MonoBehaviour {
 							}
 						}
 
-						if(racePositions[i].lap > racePositions[i - 1].lap)
+						if(racePositions[i].checkPointID > racePositions[i - 1].checkPointID)
+						{
+							print ("Im higher");
+							Vehicle temp = racePositions[i];
+							racePositions[i] = racePositions[i - 1];
+							racePositions[i - 1] = temp;
+						}
+
+						/*if(racePositions[i].lap > racePositions[i - 1].lap)
 						{
 							Vehicle temp = racePositions[i];
 							racePositions[i] = racePositions[i - 1];
 							racePositions[i - 1] = temp;
 							sorted = false;
-						}
+						}*/
 					}
 				}
 			}

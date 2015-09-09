@@ -14,13 +14,13 @@ public class CheckPoint : MonoBehaviour {
 				return;
 
 			Vehicle tempV = col.GetComponent<Vehicle>();
-			if(tempV.checkPointID == (id - 1))
+			//print (tempV.checkPointID % (GameManager.inst.checkPointsPerLap - 1) + " == " + (id - 1));
+			if(tempV.checkPointID % (GameManager.inst.checkPointsPerLap - 1) == (id - 1))
 			{
-				tempV.checkPointID = id;
+				tempV.checkPointID++;
 				if(isFinishLine)
 				{
 					tempV.lap++;
-					tempV.checkPointID = 0;
 				}
 			}
 		}
