@@ -4,6 +4,15 @@ using XInputDotNetPure;
 
 public class Vehicle : MonoBehaviour {
 
+	public enum SittingDirection
+	{
+		BOTTOM,
+		TOP,
+		LEFT,
+		RIGHT
+	}
+	public SittingDirection sittingDir;
+
 	[SerializeField] public int playerID = 0;
 	public GameObject linkedCar;
 	[SerializeField] float health = 100f;
@@ -33,6 +42,7 @@ public class Vehicle : MonoBehaviour {
 	public int currentPosition;
 	public int checkPointID = 0;
 	public int lap = 0;
+	public bool controlsEnabled = true;
 
 	public GameObject item;
 	[SerializeField] GameObject itemInstPoint;
@@ -51,6 +61,9 @@ public class Vehicle : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
+		if(lap == 3)
+			controlsEnabled = false;
+
 		SetInputStates();
 
 		CalculateAcceleration();
@@ -76,7 +89,22 @@ public class Vehicle : MonoBehaviour {
 			return;
 		}
 
-		inputDirection = new Vector2(currState.ThumbSticks.Left.X, currState.ThumbSticks.Left.Y);
+		switch(sittingDir)
+		{
+		case SittingDirection.BOTTOM:
+			inputDirection = new Vector2(currState.ThumbSticks.Left.X, currState.ThumbSticks.Left.Y);
+			break;
+		case SittingDirection.TOP:
+			inputDirection = new Vector2(-currState.ThumbSticks.Left.X, -currState.ThumbSticks.Left.Y);
+			break;
+		case SittingDirection.LEFT:
+			inputDirection = new Vector2(currState.ThumbSticks.Left.Y, -currState.ThumbSticks.Left.X);
+			break;
+		case SittingDirection.RIGHT:
+			inputDirection = new Vector2(-currState.ThumbSticks.Left.Y, currState.ThumbSticks.Left.X);
+			break;
+		}
+
 	}
 
 	void CalculateAcceleration()
@@ -115,11 +143,14 @@ public class Vehicle : MonoBehaviour {
 
 	void ApplyForces()
 	{
-		rigid.AddForce(inputDirection * speed * acceleration * terrainMultiplyer * boostSpeed);
-
-		if (!isAccelerating)
+		if(controlsEnabled)
 		{
-			rigid.AddForce(-rigid.velocity * slowDownMultiplyer);
+			rigid.AddForce(inputDirection * speed * acceleration * terrainMultiplyer * boostSpeed);
+			
+			if (!isAccelerating)
+			{
+				rigid.AddForce(-rigid.velocity * slowDownMultiplyer);
+			}
 		}
 	}
 

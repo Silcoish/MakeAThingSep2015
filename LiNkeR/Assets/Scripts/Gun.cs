@@ -29,7 +29,9 @@ public class Gun : MonoBehaviour {
 		{
 			return;
 		}
-		inputDirection = new Vector2(currState.ThumbSticks.Right.X, currState.ThumbSticks.Right.Y);
+
+		SetInputDirection();
+
 		float angle = Mathf.Atan2(-inputDirection.y, -inputDirection.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
@@ -59,6 +61,25 @@ public class Gun : MonoBehaviour {
 			GameObject bul = (GameObject)Instantiate(bullet, instantiatePoint.transform.position, transform.rotation);
 			bul.tag = "Bullet";
 			bul.GetComponent<Rigidbody2D>().AddForce((Vector2)bul.transform.right * - 100f);
+		}
+	}
+
+	void SetInputDirection()
+	{
+		switch(parentVehicleScript.sittingDir)
+		{
+		case Vehicle.SittingDirection.BOTTOM:
+			inputDirection = new Vector2(currState.ThumbSticks.Left.X, currState.ThumbSticks.Left.Y);
+			break;
+		case Vehicle.SittingDirection.TOP:
+			inputDirection = new Vector2(-currState.ThumbSticks.Left.X, -currState.ThumbSticks.Left.Y);
+			break;
+		case Vehicle.SittingDirection.LEFT:
+			inputDirection = new Vector2(currState.ThumbSticks.Left.Y, -currState.ThumbSticks.Left.X);
+			break;
+		case Vehicle.SittingDirection.RIGHT:
+			inputDirection = new Vector2(-currState.ThumbSticks.Left.Y, currState.ThumbSticks.Left.X);
+			break;
 		}
 	}
 }
