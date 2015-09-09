@@ -11,6 +11,7 @@ public class CheckPointManager : MonoBehaviour {
 		checkPoints = new List<CheckPoint>();
 
 		int childCount = transform.childCount;
+		GameManager.inst.checkPointsPerLap = transform.childCount;
 		for(int i = 0; i < childCount; i++)
 		{
 			checkPoints.Add(transform.GetChild(i).GetComponent<CheckPoint>());
