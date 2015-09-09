@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject carsParent;
 	Vehicle[] racePositions = new Vehicle[4];
 
+	public List<GameObject> itemList;
 	bool set = false;
 
 	void Awake () {
@@ -64,7 +65,6 @@ public class GameManager : MonoBehaviour {
 
 						if(racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
 						{
-							print ("fml: " + ((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1));
 							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
 							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild((racePositions[i - 1].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
 
@@ -79,7 +79,6 @@ public class GameManager : MonoBehaviour {
 
 						if(racePositions[i].checkPointID > racePositions[i - 1].checkPointID)
 						{
-							print ("Im higher");
 							Vehicle temp = racePositions[i];
 							racePositions[i] = racePositions[i - 1];
 							racePositions[i - 1] = temp;

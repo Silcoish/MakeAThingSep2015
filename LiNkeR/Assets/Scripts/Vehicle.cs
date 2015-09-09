@@ -34,6 +34,9 @@ public class Vehicle : MonoBehaviour {
 	public int checkPointID = 0;
 	public int lap = 0;
 
+	public GameObject item;
+	[SerializeField] GameObject itemInstPoint;
+
 	Vector2 inputDirection;
 
 	Rigidbody2D rigid;
@@ -57,6 +60,8 @@ public class Vehicle : MonoBehaviour {
 		SetRotation();
 
 		SetEngineSoundVariables();
+
+		CheckForPlacingItem();
 
 		ApplyForces();
 	}
@@ -130,7 +135,18 @@ public class Vehicle : MonoBehaviour {
 
 		engineSound.pitch = minEnginePitch + (accPercent * pitch1percent);
 
+	}
 
+	public void CheckForPlacingItem()
+	{
+		if(item != null)
+		{
+			if(prevState.Triggers.Right < 0.5f && currState.Triggers.Right > 0.5f)
+			{
+				Instantiate(item, itemInstPoint.transform.position, Quaternion.identity);
+				item = null;
+			}
+		}
 	}
 
 	public void TakeHealth(float damage)
