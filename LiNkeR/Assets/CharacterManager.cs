@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using XInputDotNetPure;
@@ -16,6 +16,11 @@ public class CharacterManager : MonoBehaviour {
 
 	void Start()
 	{
+		if (GameObject.Find("PlayerDirection"))
+		{
+			ChangeCharacterOrientation();
+		}
+
 		characterAvaliable = new List<bool>();
 		for(int i = 0; i < characters.Count; i++)
 			characterAvaliable.Add(true);
@@ -66,6 +71,31 @@ public class CharacterManager : MonoBehaviour {
 				}
 			}
 			 
+		}
+	}
+
+	void ChangeCharacterOrientation()
+	{
+		GameObject tempGO = GameObject.Find("PlayerDirection");
+		PersistentDirection pd = tempGO.GetComponent<PersistentDirection>();
+
+		for(int i = 0; i < 4; i++)
+		{
+			switch(pd.directions[i])
+			{
+				case Vehicle.SittingDirection.BOTTOM:
+					characterPositions[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+					break;
+				case Vehicle.SittingDirection.TOP:
+					characterPositions[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+					break;
+				case Vehicle.SittingDirection.LEFT:
+					characterPositions[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 270));
+					break;
+				case Vehicle.SittingDirection.RIGHT:
+					characterPositions[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+					break;
+			}
 		}
 	}
 
