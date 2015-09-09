@@ -143,7 +143,8 @@ public class Vehicle : MonoBehaviour {
 		{
 			if(prevState.Triggers.Right < 0.5f && currState.Triggers.Right > 0.5f)
 			{
-				Instantiate(item, itemInstPoint.transform.position, Quaternion.identity);
+				GameObject tempO = (GameObject)Instantiate(item, itemInstPoint.transform.position, Quaternion.identity);
+				tempO.SendMessage("SetOwner", gameObject);
 				item = null;
 			}
 		}

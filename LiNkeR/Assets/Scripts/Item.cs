@@ -2,22 +2,11 @@
 using System.Collections;
 
 public class Item : MonoBehaviour {
-
-	bool activated;
-
-	// Use this for initialization
-	void Start () 
-	{
 	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}
-
-
+	protected GameObject owner;
+	protected float globalCooldown = 1f;
+	protected float globalCounter = 0.0f;
+	protected bool canAttackOwner;
 
 	public virtual void Activate()
 	{
@@ -28,4 +17,10 @@ public class Item : MonoBehaviour {
 	{
 
 	}
+
+	public void SetOwner(GameObject o)
+	{
+		owner = o;
+	}
+
 }
