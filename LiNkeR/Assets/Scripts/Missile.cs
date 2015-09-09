@@ -44,15 +44,16 @@ public class Missile : Item
 			explosion.SetActive(true);
 			hitSomething = true;
 		}
-		else if(col.gameObject.tag == "Player")
+		else if(col.gameObject.tag == "Player" && !hitSomething)
 		{
-			//col.gameObject.GetComponent<Vehicle>().linkedCar.SendMessage("Take Damage", damage);
-			Debug.Log("Do " + damage + " Damage to player" + col.gameObject.GetComponent<Vehicle>().playerID);
+			GetComponent<BoxCollider2D>().enabled = false;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
 			trailEffect.gameObject.SetActive(false);
 			rigid.isKinematic = true;
 			explosion.SetActive(true);
 			hitSomething = true;
+			col.gameObject.GetComponent<Vehicle>().linkedCar.GetComponent<Vehicle>().TakeHealth(damage);
+			Debug.Log("Do " + damage + " Damage to player" + col.gameObject.GetComponent<Vehicle>().playerID);
 		}
 	}
 }

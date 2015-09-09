@@ -133,6 +133,16 @@ public class Vehicle : MonoBehaviour {
 
 	}
 
+	public void TakeHealth(float damage)
+	{
+		health -= damage;
+	}
+
+	public void GiveHealth(float heal)
+	{
+		health += heal;
+	}
+
 	public void SetTerrainModifier(float value)
 	{
 		terrainMultiplyer = value;
