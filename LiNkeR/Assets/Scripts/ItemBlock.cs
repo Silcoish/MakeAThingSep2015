@@ -7,6 +7,8 @@ public class ItemBlock : MonoBehaviour {
     float counter = 0f;
     bool isEnabled = true;
 
+    public AudioClip itemBoxAudio;
+
     void Update()
     {
         if(!isEnabled)
@@ -23,9 +25,9 @@ public class ItemBlock : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-        print("Trigger Enter");
 		if(col.tag == "Player" && isEnabled)
 		{
+            AudioSource.PlayClipAtPoint(itemBoxAudio, Vector2.zero);
 			col.gameObject.GetComponent<Vehicle>().item = GameManager.inst.itemList[Random.Range(0, GameManager.inst.itemList.Count)];
             GameManager.inst.itemIconLocations[col.gameObject.GetComponent<Vehicle>().playerID].sprite = col.gameObject.GetComponent<Vehicle>().item.GetComponent<SpriteRenderer>().sprite;
 			//StartCoroutine(PickItem(col.gameObject));

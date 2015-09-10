@@ -7,6 +7,14 @@ public class Bees : Item {
 	bool playerHit = false;
 	float counter;
 
+    public AudioClip beesDeploySound;
+    public AudioClip beesHit;
+
+    void Start()
+    {
+        AudioSource.PlayClipAtPoint(beesDeploySound, Vector2.zero);
+    }
+
 	void Update () 
 	{
 		globalCounter += Time.deltaTime;
@@ -34,6 +42,7 @@ public class Bees : Item {
 	{
 		if(col.gameObject.tag == "Player")
 		{
+            AudioSource.PlayClipAtPoint(beesHit, Vector2.zero);
 			hitPlayer = col.gameObject.GetComponent<Vehicle>();
 			playerHit = true;
 		}

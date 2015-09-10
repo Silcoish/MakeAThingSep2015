@@ -37,12 +37,13 @@ public class Vehicle : MonoBehaviour {
 	public float terrainMultiplyer = 1.0f;
 
 	bool isAccelerating = false;
-	float acceleration;
+	public float acceleration;
 
 	public int currentPosition;
 	public int checkPointID = 0;
 	public int lap = 0;
 	public bool controlsEnabled = true;
+    bool setWin = false;
 
 	public GameObject item;
 	public GameObject itemInstPoint;
@@ -65,7 +66,20 @@ public class Vehicle : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		if(lap == 3)
-			controlsEnabled = false;
+        {
+            if(!setWin)
+            {
+                setWin = true;
+                GameManager.inst.SetComplete(playerCharacter);
+            }
+            controlsEnabled = false;
+        }
+
+        if(lap == 2)
+        {
+            GameManager.inst.PlayFinalLap();
+        }
+			
 
 		SetInputStates();
 

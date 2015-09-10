@@ -7,9 +7,12 @@ public class Magnet : Item {
     public float timer = 4f;
     float counter = 0f;
 
+    public AudioClip magnetSound;
+
     public void Start()
     {
         transform.parent = owner.GetComponent<Vehicle>().itemInstPoint.transform;
+        AudioSource.PlayClipAtPoint(magnetSound, transform.position);
     }
 
     public void Update()

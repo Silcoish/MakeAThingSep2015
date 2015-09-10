@@ -14,6 +14,10 @@ public class CharacterManager : MonoBehaviour {
 	public GamePadState[] curState = new GamePadState[4];
 	public bool[] hasSelected = new bool[4];
 
+	public AudioClip pressStartAudio;
+	public GameObject pressStartText;
+	public bool canStart = false;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -21,6 +25,7 @@ public class CharacterManager : MonoBehaviour {
 
 	void Start()
 	{
+		pressStartText.SetActive(false);
 		if (GameObject.Find("PlayerDirection"))
 		{
 			ChangeCharacterOrientation();
@@ -78,8 +83,14 @@ public class CharacterManager : MonoBehaviour {
                     }
                 }
 
+				if (canStart)
+					if (prevState[i].Buttons.Start == ButtonState.Pressed && curState[i].Buttons.Start == ButtonState.Released)
+						Application.LoadLevel("corey");
+
             }
         }
+
+		
 	}
 
 	void ChangeCharacterOrientation()
@@ -141,8 +152,9 @@ public class CharacterManager : MonoBehaviour {
 			}
 		}
 
-        if (AllSelected())
-            Application.LoadLevel("corey");
+		if (AllSelected())
+			StartCoroutine(PressStart());
+			
 	}
 
 	bool AllSelected()
@@ -155,4 +167,12 @@ public class CharacterManager : MonoBehaviour {
 
         return true;
     }
+
+	IEnumerator PressStart()
+	{
+		yield return new WaitForSeconds(3f);
+		pressStartText.SetActive(true);
+		AudioSource.PlayClipAtPoint(pressStartAudio, Vector2.zero);
+		canStart = true;
+	}
 }
