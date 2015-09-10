@@ -14,6 +14,11 @@ public class CharacterManager : MonoBehaviour {
 	public GamePadState[] curState = new GamePadState[4];
 	public bool[] hasSelected = new bool[4];
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
 	void Start()
 	{
 		if (GameObject.Find("PlayerDirection"))
@@ -37,41 +42,44 @@ public class CharacterManager : MonoBehaviour {
 
 	void Update()
 	{
-		for(int i = 0; i < 4; i++)
-		{
-			prevState[i] = curState[i];
-			curState[i] = GamePad.GetState((PlayerIndex)i);
+        if(characterPositions[0] != null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                prevState[i] = curState[i];
+                curState[i] = GamePad.GetState((PlayerIndex)i);
 
-			if(!curState[i].IsConnected)
-			{
+                if (!curState[i].IsConnected)
+                {
 
-			}
+                }
 
-			//Move LEFT
-			if(curState[i].ThumbSticks.Left.X < -0.5 && prevState[i].ThumbSticks.Left.X > -0.5)
-			{
-				if(!hasSelected[i])
-					ChangeCharacter(i, true);
-			} //Move RIGHT
-			else if(curState[i].ThumbSticks.Left.X > 0.5 && prevState[i].ThumbSticks.Left.X < 0.5)
-			{
-				if(!hasSelected[i])
-					ChangeCharacter(i, false);
-			}
+                //Move LEFT
+                if (curState[i].ThumbSticks.Left.X < -0.5 && prevState[i].ThumbSticks.Left.X > -0.5)
+                {
+                    if (!hasSelected[i])
+                        ChangeCharacter(i, true);
+                } //Move RIGHT
+                else if (curState[i].ThumbSticks.Left.X > 0.5 && prevState[i].ThumbSticks.Left.X < 0.5)
+                {
+                    if (!hasSelected[i])
+                        ChangeCharacter(i, false);
+                }
 
-			if(prevState[i].Buttons.A == ButtonState.Pressed && curState[i].Buttons.A == ButtonState.Released)
-			{
-				if(characterAvaliable[characterID[i]])
-				{
-					//Play Sound
-					AudioSource.PlayClipAtPoint(characters[characterID[i]].GetComponent<Character>().PlaySelect(), Vector2.zero);
-					characterAvaliable[characterID[i]] = false;
-					hasSelected[i] = true;
-					CheckCharactersColors();
-				}
-			}
-			 
-		}
+                if (prevState[i].Buttons.A == ButtonState.Pressed && curState[i].Buttons.A == ButtonState.Released)
+                {
+                    if (characterAvaliable[characterID[i]])
+                    {
+                        //Play Sound
+                        AudioSource.PlayClipAtPoint(characters[characterID[i]].GetComponent<Character>().PlaySelect(), Vector2.zero);
+                        characterAvaliable[characterID[i]] = false;
+                        hasSelected[i] = true;
+                        CheckCharactersColors();
+                    }
+                }
+
+            }
+        }
 	}
 
 	void ChangeCharacterOrientation()

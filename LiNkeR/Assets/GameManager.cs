@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour {
                     {
                         carsParent.transform.GetChild(i).GetComponent<Vehicle>().sittingDir = GameObject.Find("PlayerDirection").GetComponent<PersistentDirection>().directions[i];
                     }
+                    if (GameObject.Find("CharacterManager") != null)
+                    {
+                        CharacterManager cm = GameObject.Find("CharacterManager").GetComponent<CharacterManager>();
+                        carsParent.transform.GetChild(i).GetComponent<Vehicle>().playerCharacter = cm.characters[cm.characterID[i]].GetComponent<Character>();
+                    }
 				}
 				set = true;
 			}
@@ -91,13 +96,6 @@ public class GameManager : MonoBehaviour {
 							racePositions[i - 1] = temp;
 						}
 
-						/*if(racePositions[i].lap > racePositions[i - 1].lap)
-						{
-							Vehicle temp = racePositions[i];
-							racePositions[i] = racePositions[i - 1];
-							racePositions[i - 1] = temp;
-							sorted = false;
-						}*/
 					}
 				}
 			}
