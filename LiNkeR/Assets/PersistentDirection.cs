@@ -12,7 +12,7 @@ public class PersistentDirection : MonoBehaviour {
 	float timer = 4f;
 	float counter = 0.0f;
 
-	public TextMesh timerText;
+	public TextMesh[] timerText;
 
 	void Start()
 	{
@@ -26,7 +26,7 @@ public class PersistentDirection : MonoBehaviour {
 
 	void Update()
 	{
-		if(timerText != null)
+		if(timerText[0] != null)
 		{
 			if (CheckIfReady())
 				DoTimer();
@@ -82,19 +82,26 @@ public class PersistentDirection : MonoBehaviour {
 	void ResetTimer()
 	{
 		counter = 0;
-		timerText.text = "";
+		for(int i = 0; i < 4; i ++)
+			SetText("");
 	}
 
 	void DoTimer()
 	{
 		counter += Time.deltaTime;
 		if (counter > 0f && counter < 1f)
-			timerText.text = "3";
+			SetText("3");
 		else if (counter > 1f && counter < 2f)
-			timerText.text = "2";
+			SetText("2");
 		else if (counter > 2f && counter < 3f)
-			timerText.text = "1";
+			SetText("1");
 		else if (counter > 3f)
 			Application.LoadLevel("CharacterSelect");
+	}
+
+	void SetText(string text)
+	{
+		for(int i = 0; i < 4; i++)
+			timerText[i].text = text;
 	}
 }

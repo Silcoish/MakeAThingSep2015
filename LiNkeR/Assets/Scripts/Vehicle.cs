@@ -47,6 +47,8 @@ public class Vehicle : MonoBehaviour {
 	public GameObject item;
 	[SerializeField] GameObject itemInstPoint;
 
+    public Character playerCharacter;
+
 	Vector2 inputDirection;
 
 	Rigidbody2D rigid;
@@ -176,6 +178,7 @@ public class Vehicle : MonoBehaviour {
 			{
 				GameObject tempO = (GameObject)Instantiate(item, itemInstPoint.transform.position, Quaternion.identity);
 				tempO.SendMessage("SetOwner", gameObject);
+                GameManager.inst.SetDefaultIcon(playerID);
 				item = null;
 			}
 		}

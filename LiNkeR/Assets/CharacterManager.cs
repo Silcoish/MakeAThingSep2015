@@ -132,5 +132,19 @@ public class CharacterManager : MonoBehaviour {
 				characterPositions[i].GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 			}
 		}
+
+        if (AllSelected())
+            Application.LoadLevel("corey");
 	}
+
+	bool AllSelected()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            if (!hasSelected[i])
+                return false;
+        }
+
+        return true;
+    }
 }

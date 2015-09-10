@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour {
 	public int checkPointsPerLap;
 	public GameObject carsParent;
 	Vehicle[] racePositions = new Vehicle[4];
+    public Image[] itemIconLocations = new Image[4];
+    public Sprite defaultItemIcon;
 
 	public List<GameObject> itemList;
 	bool set = false;
@@ -31,6 +34,10 @@ public class GameManager : MonoBehaviour {
 				for(int i = 0; i < 4; i++)
 				{
 					racePositions[i] = carsParent.transform.GetChild(i).GetComponent<Vehicle>();
+                    if(GameObject.Find("PlayerDirection") != null)
+                    {
+                        carsParent.transform.GetChild(i).GetComponent<Vehicle>().sittingDir = GameObject.Find("PlayerDirection").GetComponent<PersistentDirection>().directions[i];
+                    }
 				}
 				set = true;
 			}
@@ -101,4 +108,9 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 	}
+
+    public void SetDefaultIcon(int player)
+    {
+        itemIconLocations[player].sprite = defaultItemIcon;
+    }
 }
