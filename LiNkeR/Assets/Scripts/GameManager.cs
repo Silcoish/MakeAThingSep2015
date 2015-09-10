@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour {
 	public Text[] characterLapLocations = new Text[4];
     public Sprite defaultItemIcon;
 
+    public Character[] winOrder = new Character[4];
+    public int racersComplete = 0;
+
+    public bool announcedFinalLap = false;
+    public AudioClip finalLapSound;
+
 	public List<GameObject> itemList;
 	bool set = false;
 
@@ -162,5 +168,24 @@ public class GameManager : MonoBehaviour {
     public void SetDefaultIcon(int player)
     {
         itemIconLocations[player].sprite = defaultItemIcon;
+    }
+
+    public void SetComplete(Character pc)
+    {
+        if (racersComplete == 0)
+            AudioSource.PlayClipAtPoint(pc.PlayWin(), Vector2.zero);
+
+        winOrder[racersComplete] = pc;
+
+        racersComplete++;
+    }
+
+    public void PlayFinalLap()
+    {
+        if (!announcedFinalLap)
+        {
+            announcedFinalLap = true;
+            AudioSource.PlayClipAtPoint(finalLapSound, Vector2.zero);
+        }
     }
 }

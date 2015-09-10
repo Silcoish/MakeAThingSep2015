@@ -5,8 +5,14 @@ public class Bubble : Item
 {
 	public float timeOnTrack;
 	float counter = 0;
+    public AudioClip bubbleDeploySound;
+    public AudioClip bubbleHitSound;
 	
-	// Update is called once per frame
+    void Start()
+    {
+        AudioSource.PlayClipAtPoint(bubbleDeploySound, Vector2.zero);
+    }
+
 	void Update ()
 	{
 		if(counter > timeOnTrack)
@@ -23,7 +29,10 @@ public class Bubble : Item
 	{
 		if(col.gameObject.tag == "Player")
 		{
-			col.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            col.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            col.gameObject.GetComponent<Vehicle>().acceleration = 0f;
+            AudioSource.PlayClipAtPoint(bubbleHitSound, Vector2.zero);
+            Destroy(gameObject);
 		}
 	}
 }
