@@ -32,7 +32,7 @@ public class Gun : MonoBehaviour {
 
 		SetInputDirection();
 
-		float angle = Mathf.Atan2(-inputDirection.y, -inputDirection.x) * Mathf.Rad2Deg;
+		float angle = Mathf.Atan2(-inputDirection.y, - inputDirection.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
 		if(currState.Triggers.Right >= 0.5f && counter >= cooldown)
@@ -69,16 +69,16 @@ public class Gun : MonoBehaviour {
 		switch(parentVehicleScript.sittingDir)
 		{
 		case Vehicle.SittingDirection.BOTTOM:
-			inputDirection = new Vector2(currState.ThumbSticks.Left.X, currState.ThumbSticks.Left.Y);
+                inputDirection = new Vector2(currState.ThumbSticks.Right.X, currState.ThumbSticks.Right.Y);
 			break;
 		case Vehicle.SittingDirection.TOP:
-			inputDirection = new Vector2(-currState.ThumbSticks.Left.X, -currState.ThumbSticks.Left.Y);
+            inputDirection = new Vector2(-currState.ThumbSticks.Right.X, -currState.ThumbSticks.Right.Y);
 			break;
 		case Vehicle.SittingDirection.LEFT:
-			inputDirection = new Vector2(currState.ThumbSticks.Left.Y, -currState.ThumbSticks.Left.X);
+            inputDirection = new Vector2(currState.ThumbSticks.Right.Y, -currState.ThumbSticks.Right.X);
 			break;
 		case Vehicle.SittingDirection.RIGHT:
-			inputDirection = new Vector2(-currState.ThumbSticks.Left.Y, currState.ThumbSticks.Left.X);
+            inputDirection = new Vector2(-currState.ThumbSticks.Right.Y, currState.ThumbSticks.Right.X);
 			break;
 		}
 	}
