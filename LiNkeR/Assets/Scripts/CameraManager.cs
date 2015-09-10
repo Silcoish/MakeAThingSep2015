@@ -78,18 +78,24 @@ public class CameraManager : MonoBehaviour
 
 	float GetOrthoSize()
 	{
-		float highest = carPos[0].position.y;
-		float lowest = carPos[0].position.y;
+		float highestY = carPos[0].position.y;
+		float lowestY = carPos[0].position.y;
+        float highestX = carPos[0].position.x;
+        float lowestX = carPos[0].position.x;
 		
 		for(int i = 0; i < carPos.Length; i++)
 		{
-			if(carPos[i].position.y > highest)
-				highest = carPos[i].position.y;
-			if(carPos[i].position.y < lowest)
-				lowest = carPos[i].position.y;
+            if (carPos[i].position.y > highestY)
+                highestY = carPos[i].position.y;
+            if (carPos[i].position.y < lowestY)
+                lowestY = carPos[i].position.y;
+            if (carPos[i].position.x > highestX)
+                highestX = carPos[i].position.x;
+            if (carPos[i].position.x < lowestX)
+                lowestX = carPos[i].position.x;
 		}
 
-		float retVal = highest - lowest;
+        float retVal = ((highestY - lowestY)) + (highestX - lowestX);
 		if(retVal < minZoom)
 			retVal = minZoom;
 
