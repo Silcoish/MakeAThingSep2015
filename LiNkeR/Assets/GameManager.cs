@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject carsParent;
 	Vehicle[] racePositions = new Vehicle[4];
     public Image[] itemIconLocations = new Image[4];
-	public Image[] characterIconLocations = new Image[4];
     public Sprite defaultItemIcon;
 
 	public List<GameObject> itemList;
@@ -24,8 +23,6 @@ public class GameManager : MonoBehaviour {
 		else
 			Destroy(this);
 	}
-
-
 
 	void Update()
 	{
@@ -45,7 +42,6 @@ public class GameManager : MonoBehaviour {
                     {
                         CharacterManager cm = GameObject.Find("CharacterManager").GetComponent<CharacterManager>();
                         carsParent.transform.GetChild(i).GetComponent<Vehicle>().playerCharacter = cm.characters[cm.characterID[i]].GetComponent<Character>();
-						SetCharacterIcons(i);
                     }
 				}
 				set = true;
@@ -109,11 +105,6 @@ public class GameManager : MonoBehaviour {
 				racePositions[j].positionText.text = (j + 1).ToString();
 			}
 		}
-	}
-
-	public void SetCharacterIcons(int player)
-	{
-		characterIconLocations[player].sprite = carsParent.transform.GetChild(player).GetComponent<Vehicle>().playerCharacter.characterIcon;
 	}
 
     public void SetDefaultIcon(int player)
