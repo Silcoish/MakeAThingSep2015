@@ -45,7 +45,7 @@ public class Vehicle : MonoBehaviour {
 	public bool controlsEnabled = true;
 
 	public GameObject item;
-	[SerializeField] GameObject itemInstPoint;
+	public GameObject itemInstPoint;
 
     public Character playerCharacter;
 
