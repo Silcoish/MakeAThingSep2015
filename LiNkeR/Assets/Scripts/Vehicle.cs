@@ -59,6 +59,7 @@ public class Vehicle : MonoBehaviour {
 	void Start()
 	{
 		rigid = GetComponent<Rigidbody2D>();
+		//GameManager.inst.SetCharacterIcons(playerID);
 	}
 
 	void FixedUpdate ()
