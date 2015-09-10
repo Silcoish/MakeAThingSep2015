@@ -17,6 +17,7 @@ public class Character : MonoBehaviour {
 	public float guns;
 
 	public Sprite characterSprite;
+	public Sprite characterIcon;
 	public Sprite carSprite;
 
 	public AudioClip PlayTaunt()
