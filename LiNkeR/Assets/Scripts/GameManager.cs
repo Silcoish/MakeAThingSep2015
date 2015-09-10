@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour {
                     {
                         CharacterManager cm = GameObject.Find("CharacterManager").GetComponent<CharacterManager>();
                         carsParent.transform.GetChild(i).GetComponent<Vehicle>().playerCharacter = cm.characters[cm.characterID[i]].GetComponent<Character>();
+						carsParent.transform.GetChild(i).FindChild("CarSprite").GetComponent<SpriteRenderer>().sprite = cm.characters[cm.characterID[i]].GetComponent<Character>().carSprite;
 						SetCharacterIcons(i);
 						SetCharacterInfo(i);
                     }
