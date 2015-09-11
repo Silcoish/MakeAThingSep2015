@@ -31,7 +31,7 @@ public class Bubble : Item
 		{
             col.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             col.gameObject.GetComponent<Vehicle>().acceleration = 0f;
-            AudioSource.PlayClipAtPoint(bubbleHitSound, Vector2.zero);
+            AudioSource.PlayClipAtPoint(bubbleHitSound, Vector2.zero, GameManager.inst.itemVol);
             Destroy(gameObject);
 		}
 	}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour {
     public Image[] itemIconLocations = new Image[4];
 	public Image[] characterIconLocations = new Image[4];
 	public Text[] characterLapLocations = new Text[4];
+    public Slider[] characterHPLocations = new Slider[4];
     public Sprite defaultItemIcon;
 
     public Character[] winOrder = new Character[4];
@@ -24,6 +26,26 @@ public class GameManager : MonoBehaviour {
 
 	public List<GameObject> itemList;
 	bool set = false;
+
+    [Range(0f, 1f)]
+    public float carVol = 1;
+    [Range(0f, 1f)]
+    public float tauntVol = 1;
+    [Range(0f, 1f)]
+    public float collisionVol = 1;
+    [Range(0f, 1f)]
+    public float beeVol = 1;
+    [Range(0f, 1f)]
+    public float deathVol = 1;
+    [Range(0f, 1f)]
+    public float hurtVol = 1;
+    [Range(0f, 1f)]
+    public float winVol = 1;
+    [Range(0f, 1f)]
+    public float announcerVol = 1;
+    [Range(0f, 1f)]
+    public float itemVol = 1;
+
 
 	void Awake () {
 		if(GameManager.inst == null)
@@ -63,6 +85,7 @@ public class GameManager : MonoBehaviour {
 		else
 		{
 			DetermineRacePositions();
+            UpdateHP();
 		}
 	}
 
@@ -164,6 +187,14 @@ public class GameManager : MonoBehaviour {
 			break;
 		}
 		print(characterLapLocations[player].text);
+	}
+
+    public void UpdateHP()
+	{
+		for(int i = 0; i < 4; i++)
+		{
+			characterHPLocations[i].value = carsParent.transform.GetChild(i).GetComponent<Vehicle>().GetHealth();
+		}
 	}
 
     public void SetDefaultIcon(int player)
