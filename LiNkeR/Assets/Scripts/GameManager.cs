@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour {
 	public List<GameObject> itemList;
 	bool set = false;
 
+    public Character lastFrameFirstPlace;
+    public Character currentFrameFirstPlace;
+
     [Range(0f, 1f)]
     public float carVol = 1;
     [Range(0f, 1f)]
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour {
 
 	void Update()
 	{
+
 		if(!set)
 		{
 			if(carsParent.transform.GetChild(0).GetComponent<Vehicle>() != null)
@@ -87,61 +91,80 @@ public class GameManager : MonoBehaviour {
 			DetermineRacePositions();
 			UpdateHP();
 			SetCharacterInfo();
+
+            if (racersComplete >= 4)
+            {
+                PlayerPrefs.SetInt("firstPlace", winOrder[0].ID);
+                PlayerPrefs.SetInt("secondPlace", winOrder[1].ID);
+                PlayerPrefs.SetInt("thirdPlace", winOrder[2].ID);
+                PlayerPrefs.Save();
+                Application.LoadLevel("Win");
+            }
+
+            lastFrameFirstPlace = currentFrameFirstPlace;
+            currentFrameFirstPlace = racePositions[0].playerCharacter;
+
+            if (lastFrameFirstPlace != currentFrameFirstPlace)
+            {
+                GameManager.inst.audioCrossFade.SwapSound(currentFrameFirstPlace.backgroundMusic);
+            }
 		}
 	}
 
 	void DetermineRacePositions()
 	{
-		if(carsParent.transform.GetChild(0).GetComponent<Vehicle>() != null)
-		{
+        if (carsParent.transform.GetChild(0).GetComponent<Vehicle>() != null)
+        {
 
-			bool sorted = false;
-			int counter = 0;
-			while(!sorted)
-			{
-				counter++;
-				if(counter > 100)
-				{
-					print ("Early exit");
-					return;
-				}
+            bool sorted = false;
+            int counter = 0;
+            while (!sorted)
+            {
+                counter++;
+                if (counter > 100)
+                {
+                    print("Early exit");
+                    return;
+                }
 
-				sorted = true;
-				for(int i = 0; i < 4; i++)
-				{
-					if(i != 0)
-					{
+                sorted = true;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i != 0)
+                    {
 
-						if(racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
-						{
-							float dis  = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
-							float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild((racePositions[i - 1].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
+                        if (racePositions[i].checkPointID == racePositions[i - 1].checkPointID)
+                        {
+                            float dis = Vector2.Distance(racePositions[i].transform.position, checkPointManager.transform.GetChild((racePositions[i].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
+                            float dis1 = Vector2.Distance(racePositions[i - 1].transform.position, checkPointManager.transform.GetChild((racePositions[i - 1].checkPointID % (GameManager.inst.checkPointsPerLap - 1)) + 1).position);
 
-							if(dis < dis1)
-							{
-								Vehicle temp = racePositions[i];
-								racePositions[i] = racePositions[i - 1];
-								racePositions[i - 1] = temp;
-								sorted = false;
-							}
-						}
+                            if (dis < dis1)
+                            {
+                                Vehicle temp = racePositions[i];
+                                racePositions[i] = racePositions[i - 1];
+                                racePositions[i - 1] = temp;
+                                sorted = false;
+                            }
+                        }
 
-						if(racePositions[i].checkPointID > racePositions[i - 1].checkPointID)
-						{
-							Vehicle temp = racePositions[i];
-							racePositions[i] = racePositions[i - 1];
-							racePositions[i - 1] = temp;
-						}
+                        if (racePositions[i].checkPointID > racePositions[i - 1].checkPointID)
+                        {
+                            Vehicle temp = racePositions[i];
+                            racePositions[i] = racePositions[i - 1];
+                            racePositions[i - 1] = temp;
+                        }
 
-					}
-				}
-			}
+                    }
+                }
+            }
 
-			for(int j = 0; j < 4; j++)
-			{
-				racePositions[j].positionText.text = (j + 1).ToString();
-			}
-		}
+            for (int j = 0; j < 4; j++)
+            {
+                racePositions[j].positionText.text = (j + 1).ToString();
+            }
+
+        }
+
 	}
 
 	public void SetCharacterIcons(int player)
