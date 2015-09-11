@@ -46,7 +46,9 @@ public class Vehicle : MonoBehaviour {
     bool setWin = false;
 
 	public GameObject item;
+	public GameObject turret;
 	public GameObject itemInstPoint;
+	public GameObject gunInstPoint;
 
     public Character playerCharacter;
 
@@ -206,9 +208,17 @@ public class Vehicle : MonoBehaviour {
 	{
 		if(item != null)
 		{
-			if(prevState.Triggers.Right < 0.5f && currState.Triggers.Right > 0.5f)
+			if(prevState.Triggers.Left < 0.5f && currState.Triggers.Left > 0.5f)
 			{
-				GameObject tempO = (GameObject)Instantiate(item, itemInstPoint.transform.position, Quaternion.identity);
+				GameObject tempO;
+				if(item.tag == "Missile")
+				{
+					tempO = (GameObject)Instantiate(item, gunInstPoint.transform.position, turret.transform.rotation);
+				}
+				else
+				{
+					 tempO = (GameObject)Instantiate(item, itemInstPoint.transform.position, transform.rotation);
+				}
 				tempO.SendMessage("SetOwner", gameObject);
                 GameManager.inst.SetDefaultIcon(playerID);
 				item = null;

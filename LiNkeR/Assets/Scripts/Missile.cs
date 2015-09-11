@@ -14,10 +14,10 @@ public class Missile : Item
     public AudioClip missileHitSound;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
         AudioSource.PlayClipAtPoint(missileLaunchSound, Vector2.zero);
-		rigid = GetComponent<Rigidbody2D>();
+		rigid = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -25,7 +25,7 @@ public class Missile : Item
 	{
 		if(!hitSomething)
 		{
-			rigid.AddForce(transform.right * speed);
+			rigid.AddForce(-transform.right * speed);
 		}
 		else
 		{
@@ -41,6 +41,7 @@ public class Missile : Item
 	{
 		if(col.gameObject.tag == "Wall")
 		{
+			print ("Hit Wall");
             AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero, GameManager.inst.itemVol);
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
 			trailEffect.gameObject.SetActive(false);
@@ -50,6 +51,7 @@ public class Missile : Item
 		}
 		else if(col.gameObject.tag == "Player" && !hitSomething)
 		{
+			print("Collided with a player");
             AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero, GameManager.inst.itemVol);
 			GetComponent<BoxCollider2D>().enabled = false;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
