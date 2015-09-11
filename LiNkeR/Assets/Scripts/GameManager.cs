@@ -26,6 +26,25 @@ public class GameManager : MonoBehaviour {
 	public List<GameObject> itemList;
 	bool set = false;
 
+    [Range(0f, 1f)]
+    public float carVol = 1;
+    [Range(0f, 1f)]
+    public float tauntVol = 1;
+    [Range(0f, 1f)]
+    public float collisionVol = 1;
+    [Range(0f, 1f)]
+    public float beeVol = 1;
+    [Range(0f, 1f)]
+    public float deathVol = 1;
+    [Range(0f, 1f)]
+    public float hurtVol = 1;
+    [Range(0f, 1f)]
+    public float winVol = 1;
+    [Range(0f, 1f)]
+    public float announcerVol = 1;
+    [Range(0f, 1f)]
+    public float itemVol = 1;
+
 	void Awake () {
 		if(GameManager.inst == null)
 			inst = this;
