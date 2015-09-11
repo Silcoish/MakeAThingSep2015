@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	Vehicle[] racePositions = new Vehicle[4];
     public Image[] itemIconLocations = new Image[4];
 	public Image[] characterIconLocations = new Image[4];
+	public Slider[] characterHPLocations = new Slider[4];
 	public Text[] characterLapLocations = new Text[4];
     public Sprite defaultItemIcon;
 
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour {
 		else
 		{
 			DetermineRacePositions();
+			UpdateHP();
 		}
 	}
 
@@ -170,6 +172,14 @@ public class GameManager : MonoBehaviour {
     {
         itemIconLocations[player].sprite = defaultItemIcon;
     }
+
+	public void UpdateHP()
+	{
+		for(int i = 0; i < 4; i++)
+		{
+			characterHPLocations[i].value = carsParent.transform.GetChild(i).GetComponent<Vehicle>().GetHealth();
+		}
+	}
 
     public void SetComplete(Character pc)
     {

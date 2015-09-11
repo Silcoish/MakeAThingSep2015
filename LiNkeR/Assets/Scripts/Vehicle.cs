@@ -205,6 +205,11 @@ public class Vehicle : MonoBehaviour {
 		}
 	}
 
+	public float GetHealth()
+	{
+		return health;
+	}
+
 	public void TakeHealth(float damage)
 	{
 		health -= damage;
