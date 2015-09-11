@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bomb : MonoBehaviour {
+public class Bomb : Item {
 
 	public float timer;
 	public float speed;
+	public float damage;
 	public GameObject explosion;
 	Rigidbody2D rigid;
 	float counter;
@@ -25,7 +26,7 @@ public class Bomb : MonoBehaviour {
 		else
 		{
 			counter += Time.deltaTime;
-			rigid.AddForce(transform.right * speed);
+			rigid.AddForce(-transform.right * speed);
 		}
 	}
 
@@ -45,6 +46,7 @@ public class Bomb : MonoBehaviour {
 			if(!Exploded)
 			{
 				print ("Collided");
+				col.gameObject.GetComponent<Vehicle>().linkedCar.GetComponent<Vehicle>().TakeHealth(damage);
 				Explode();
 			}
 		}
