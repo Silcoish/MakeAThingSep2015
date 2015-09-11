@@ -10,6 +10,7 @@ public class Character : MonoBehaviour {
 	public List<AudioClip> die;
 	public List<AudioClip> bee;
 	public List<AudioClip> hurt;
+    public AudioClip backgroundMusic;
 
 	public float speed;
 	public float acc;
