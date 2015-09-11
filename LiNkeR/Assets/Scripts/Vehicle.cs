@@ -59,6 +59,10 @@ public class Vehicle : MonoBehaviour {
     public float tauntCooldown = 2f;
     float tauntCounter = 0f;
 
+	float deadTimer = 2f;
+	float deadCounter = 0f;
+	bool isDead = false;
+
 	Vector2 inputDirection;
 
 	Rigidbody2D rigid;
@@ -80,39 +84,69 @@ public class Vehicle : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if(lap == 3)
-        {
-            if(!setWin)
-            {
-                setWin = true;
-                GameManager.inst.SetComplete(playerCharacter);
-            }
-            controlsEnabled = false;
-        }
-
-        if(lap == 2)
-        {
-            GameManager.inst.PlayFinalLap();
-        }
+		if(!isDead)
+		{
+			if(lap == 3)
+			{
+				if(!setWin)
+				{
+					setWin = true;
+					GameManager.inst.SetComplete(playerCharacter);
+				}
+				controlsEnabled = false;
+			}
 			
+			if(lap == 2)
+			{
+				GameManager.inst.PlayFinalLap();
+			}
+			
+			
+			SetInputStates();
+			
+			CalculateAcceleration();
+			
+			CalculateBoosts();
+			
+			SetRotation();
+			
+			SetEngineSoundVariables();
+			
+			CheckForPlacingItem();
+			
+			ApplyForces();
+			
+			CheckForTaunt();
+			
+			DrawLineRenderers();
+		}
+		else
+		{
+			print ("I am dead");
+			deadCounter += Time.deltaTime;
+				
+			foreach(SpriteRenderer sr in transform.GetComponentsInChildren<SpriteRenderer>())
+				sr.enabled = false;
+			controlsEnabled = false;
+			foreach(BoxCollider2D box in GetComponents<BoxCollider2D>())
+			{
+				box.enabled = false;
+			}
 
-		SetInputStates();
-
-		CalculateAcceleration();
-
-		CalculateBoosts();
-
-		SetRotation();
-
-		SetEngineSoundVariables();
-
-		CheckForPlacingItem();
-
-		ApplyForces();
-
-        CheckForTaunt();
-
-        DrawLineRenderers();
+			if(deadCounter >= deadTimer)
+			{
+				isDead = false;
+				controlsEnabled = true;
+				foreach(SpriteRenderer sr in transform.GetComponentsInChildren<SpriteRenderer>())
+					sr.enabled = true;
+				//GetComponent<SpriteRenderer>().enabled = true;
+				foreach(BoxCollider2D box in GetComponents<BoxCollider2D>())
+				{
+					box.enabled = true;
+				}
+				health = 100;
+			}
+		}
 	}
 
 	void SetInputStates()
@@ -211,7 +245,7 @@ public class Vehicle : MonoBehaviour {
 			if(prevState.Triggers.Left < 0.5f && currState.Triggers.Left > 0.5f)
 			{
 				GameObject tempO;
-				if(item.tag == "Missile")
+				if(item.tag == "Missile" || item.tag == "Bomb")
 				{
 					tempO = (GameObject)Instantiate(item, gunInstPoint.transform.position, turret.transform.rotation);
 				}
@@ -234,6 +268,11 @@ public class Vehicle : MonoBehaviour {
 	public void TakeHealth(float damage)
 	{
 		health -= damage;
+		if(health <= 0)
+		{
+			isDead = true;
+			deadCounter = 0;
+		}
 	}
 
 	public void GiveHealth(float heal)
@@ -279,7 +318,7 @@ public class Vehicle : MonoBehaviour {
 
 	public void OnCollisionEnter2D(Collision2D col)
 	{
-		if(col.gameObject.tag == "Player" || col.gameObject.tag == "Wall")
+		if(col.gameObject.tag == "Player")
 		{
 			Vector2 vecDiff = transform.position - col.transform.position;
 			rigid.AddForce(vecDiff * bounciness);
@@ -296,6 +335,7 @@ public class Vehicle : MonoBehaviour {
             AudioSource.PlayClipAtPoint(collisionSound, Vector2.zero, GameManager.inst.collisionVol);
         }
 
-        AudioSource.PlayClipAtPoint(playerCharacter.PlayHurt(), Vector2.zero, GameManager.inst.hurtVol);
+		if(playerCharacter != null)
+        	AudioSource.PlayClipAtPoint(playerCharacter.PlayHurt(), Vector2.zero, GameManager.inst.hurtVol);
 	}
 }
