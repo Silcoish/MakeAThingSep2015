@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour {
                         carsParent.transform.GetChild(i).GetComponent<Vehicle>().playerCharacter = cm.characters[cm.characterID[i]].GetComponent<Character>();
 						carsParent.transform.GetChild(i).FindChild("CarSprite").GetComponent<SpriteRenderer>().sprite = cm.characters[cm.characterID[i]].GetComponent<Character>().carSprite;
 						SetCharacterIcons(i);
-						SetCharacterInfo(i);
+
                     }
 				}
 				set = true;
@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour {
 		{
 			DetermineRacePositions();
 			UpdateHP();
+			SetCharacterInfo();
 		}
 	}
 
@@ -148,45 +149,41 @@ public class GameManager : MonoBehaviour {
 		characterIconLocations[player].sprite = carsParent.transform.GetChild(player).GetComponent<Vehicle>().playerCharacter.characterIcon;
 	}
 
-	public void SetCharacterInfo(int player)
+	public void SetCharacterInfo()
 	{
-		Vehicle playerer = carsParent.transform.GetChild(player).GetComponent<Vehicle>();
-		print ("Setting the info");
-		switch(playerer.currentPosition)
+		for(int i = 0; i < 4; i++)
 		{
-		case 1:
-			print ("pos 1");
-			characterLapLocations[player].text = (playerer.currentPosition) + "st";
-			break;
-		case 2:
-			print ("pos 2");
-			characterLapLocations[player].text = (playerer.currentPosition) + "nd";
-			break;
-		case 3:
-			print ("pos 3");
-			characterLapLocations[player].text = (playerer.currentPosition) + "rd";
-			break;
-		case 4:
-			print ("pos 4");
-			characterLapLocations[player].text = (playerer.currentPosition) + "th";
-			break;
+			switch(i)
+			{
+			case 0:
+				characterLapLocations[racePositions[i].playerID].text = "1st";
+				break;
+			case 1:
+				characterLapLocations[racePositions[i].playerID].text = "2nd";
+				break;
+			case 2:
+				characterLapLocations[racePositions[i].playerID].text = "3rd";
+				break;
+			case 3:
+				characterLapLocations[racePositions[i].playerID].text = "4th";
+				break;
+			}
+			switch(racePositions[i].lap)
+			{
+			case 0:
+				characterLapLocations[racePositions[i].playerID].text += " Lap " + racePositions[i].lap + "/3";
+				break;
+			case 1:
+				characterLapLocations[racePositions[i].playerID].text += " Lap " + racePositions[i].lap + "/3";
+				break;
+			case 2:
+				characterLapLocations[racePositions[i].playerID].text += " Lap " + racePositions[i].lap + "/3";
+				break;
+			case 3:
+				characterLapLocations[racePositions[i].playerID].text += " Lap " + racePositions[i].lap + "/3";
+				break;
+			}
 		}
-		switch(playerer.lap)
-		{
-		case 0:
-			characterLapLocations[player].text += characterLapLocations[player].text + "BLAH" + playerer.lap.ToString();// + "/3";
-			break;
-		case 1:
-			characterLapLocations[player].text += playerer.lap;// + "/3";
-			break;
-		case 2:
-			characterLapLocations[player].text += playerer.lap;// + "/3";
-			break;
-		case 3:
-			characterLapLocations[player].text += playerer.lap;// + "/3";
-			break;
-		}
-		print(characterLapLocations[player].text);
 	}
 
     public void SetDefaultIcon(int player)
