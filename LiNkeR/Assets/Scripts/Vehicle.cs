@@ -78,6 +78,13 @@ public class Vehicle : MonoBehaviour {
 
     void Update()
     {
+		bool colSet = false;
+
+		if(!colSet){
+			gameObject.transform.GetChild(4).GetComponent<ParticleSystem>().startColor = playerCharacter.characterColor;
+			colSet = true;
+		}
+
         collisionCounter += Time.deltaTime;
         tauntCounter += Time.deltaTime; 
     }
