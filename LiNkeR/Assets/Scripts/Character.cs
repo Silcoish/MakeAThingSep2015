@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
 
+    public int ID;
 	public List<AudioClip> taunt;
 	public List<AudioClip> win;
 	public List<AudioClip> select;

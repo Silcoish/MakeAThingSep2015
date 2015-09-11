@@ -18,6 +18,9 @@ public class CharacterManager : MonoBehaviour {
 	public GameObject pressStartText;
 	public bool canStart = false;
 
+    public List<SpriteRenderer> bGSprites = new List<SpriteRenderer>();
+    public List<Color> bGColours = new List<Color>();
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -42,6 +45,7 @@ public class CharacterManager : MonoBehaviour {
 
 			prevState[i] = GamePad.GetState((PlayerIndex)i);
 			curState[i] = GamePad.GetState((PlayerIndex)i);
+            bGSprites[i].color = bGColours[characterID[i]];
 		}
 	}
 
@@ -136,6 +140,8 @@ public class CharacterManager : MonoBehaviour {
 		characterPositions[player].GetComponent<SpriteRenderer>().sprite = characters[characterID[player]].GetComponent<Character>().characterSprite;
 
 		CheckCharactersColors();
+
+        bGSprites[player].color = bGColours[characterID[player]];
 	}
 
 	void CheckCharactersColors()
