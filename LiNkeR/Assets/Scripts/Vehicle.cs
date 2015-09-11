@@ -267,11 +267,6 @@ public class Vehicle : MonoBehaviour {
         }
     }
 
-    public float GetHealth()
-	{
-		return health;
-	}
-
 	public void OnCollisionEnter2D(Collision2D col)
 	{
 		if(col.gameObject.tag == "Player" || col.gameObject.tag == "Wall")
