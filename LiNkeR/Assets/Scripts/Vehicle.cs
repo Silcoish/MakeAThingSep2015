@@ -50,6 +50,8 @@ public class Vehicle : MonoBehaviour {
 
     public Character playerCharacter;
 
+    public LineRenderer lineRenderer;
+
 	Vector2 inputDirection;
 
 	Rigidbody2D rigid;
@@ -94,6 +96,10 @@ public class Vehicle : MonoBehaviour {
 		CheckForPlacingItem();
 
 		ApplyForces();
+
+        CheckForTaunt();
+
+        DrawLineRenderers();
 	}
 
 	void SetInputStates()
@@ -221,6 +227,24 @@ public class Vehicle : MonoBehaviour {
 		boostCounter = 0.0f;
 	}
 
+    public void DrawLineRenderers()
+    {
+        if(linkedCar != null)
+        {
+            lineRenderer.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -1f));
+            lineRenderer.SetPosition(1, new Vector3(linkedCar.transform.position.x, linkedCar.transform.position.y, -1f));
+
+            if(playerCharacter != null)
+                lineRenderer.SetColors(playerCharacter.characterColor, linkedCar.GetComponent<Vehicle>().playerCharacter.characterColor);
+        }   
+    }
+
+    public void CheckForTaunt()
+    {
+        if (prevState.DPad.Down == ButtonState.Pressed && currState.DPad.Down == ButtonState.Released)
+            AudioSource.PlayClipAtPoint(playerCharacter.PlayTaunt(), Vector2.zero);
+    }
+
 	public void OnCollisionEnter2D(Collision2D col)
 	{
 		if(col.gameObject.tag == "Player" || col.gameObject.tag == "Wall")
@@ -235,5 +259,6 @@ public class Vehicle : MonoBehaviour {
 		}
 
 		AudioSource.PlayClipAtPoint(collisionSound, Vector2.zero);
+        AudioSource.PlayClipAtPoint(playerCharacter.PlayHurt(), Vector2.zero);
 	}
 }

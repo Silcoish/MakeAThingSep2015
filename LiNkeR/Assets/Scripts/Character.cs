@@ -20,6 +20,8 @@ public class Character : MonoBehaviour {
 	public Sprite characterIcon;
 	public Sprite carSprite;
 
+    public Color characterColor;
+
 	public AudioClip PlayTaunt()
 	{
 		return taunt[Random.Range(0, taunt.Count)];
