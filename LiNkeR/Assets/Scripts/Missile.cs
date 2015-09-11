@@ -41,7 +41,7 @@ public class Missile : Item
 	{
 		if(col.gameObject.tag == "Wall")
 		{
-            AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero);
+            AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero, GameManager.inst.itemVol);
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
 			trailEffect.gameObject.SetActive(false);
 			rigid.isKinematic = true;
@@ -50,7 +50,7 @@ public class Missile : Item
 		}
 		else if(col.gameObject.tag == "Player" && !hitSomething)
 		{
-            AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero);
+            AudioSource.PlayClipAtPoint(missileHitSound, Vector2.zero, GameManager.inst.itemVol);
 			GetComponent<BoxCollider2D>().enabled = false;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
 			trailEffect.gameObject.SetActive(false);

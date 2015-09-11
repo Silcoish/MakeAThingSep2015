@@ -42,8 +42,8 @@ public class Bees : Item {
 	{
 		if(col.gameObject.tag == "Player")
 		{
-            AudioSource.PlayClipAtPoint(col.GetComponent<Vehicle>().playerCharacter.PlayBee(), Vector2.zero);
-            AudioSource.PlayClipAtPoint(beesHit, Vector2.zero);
+            AudioSource.PlayClipAtPoint(col.GetComponent<Vehicle>().playerCharacter.PlayBee(), Vector2.zero, GameManager.inst.beeVol);
+            AudioSource.PlayClipAtPoint(beesHit, Vector2.zero, GameManager.inst.itemVol);
 			hitPlayer = col.gameObject.GetComponent<Vehicle>();
 			playerHit = true;
 		}

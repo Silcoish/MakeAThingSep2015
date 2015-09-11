@@ -27,7 +27,7 @@ public class ItemBlock : MonoBehaviour {
 	{
 		if(col.tag == "Player" && isEnabled)
 		{
-            AudioSource.PlayClipAtPoint(itemBoxAudio, Vector2.zero);
+            AudioSource.PlayClipAtPoint(itemBoxAudio, Vector2.zero, GameManager.inst.itemVol);
 			col.gameObject.GetComponent<Vehicle>().item = GameManager.inst.itemList[Random.Range(0, GameManager.inst.itemList.Count)];
             GameManager.inst.itemIconLocations[col.gameObject.GetComponent<Vehicle>().playerID].sprite = col.gameObject.GetComponent<Vehicle>().item.GetComponent<SpriteRenderer>().sprite;
 			//StartCoroutine(PickItem(col.gameObject));

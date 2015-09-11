@@ -8,7 +8,7 @@ public class HealthPack : Item{
 
 	void Start()
     {
-        AudioSource.PlayClipAtPoint(healthSound, Vector2.zero);
+        AudioSource.PlayClipAtPoint(healthSound, Vector2.zero, GameManager.inst.itemVol);
         owner.GetComponent<Vehicle>().GiveHealth(healAmount);
         owner.GetComponent<Vehicle>().linkedCar.GetComponent<Vehicle>().GiveHealth(healAmount);
         Destroy(gameObject);

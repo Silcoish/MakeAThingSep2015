@@ -52,6 +52,11 @@ public class Vehicle : MonoBehaviour {
 
     public LineRenderer lineRenderer;
 
+    public float collisionCooldown = 2f;
+    float collisionCounter = 0f;
+    public float tauntCooldown = 2f;
+    float tauntCounter = 0f;
+
 	Vector2 inputDirection;
 
 	Rigidbody2D rigid;
@@ -64,6 +69,12 @@ public class Vehicle : MonoBehaviour {
 		rigid = GetComponent<Rigidbody2D>();
 		//GameManager.inst.SetCharacterIcons(playerID);
 	}
+
+    void Update()
+    {
+        collisionCounter += Time.deltaTime;
+        tauntCounter += Time.deltaTime; 
+    }
 
 	void FixedUpdate ()
 	{
@@ -246,9 +257,20 @@ public class Vehicle : MonoBehaviour {
 
     public void CheckForTaunt()
     {
-        if (prevState.DPad.Down == ButtonState.Pressed && currState.DPad.Down == ButtonState.Released)
-            AudioSource.PlayClipAtPoint(playerCharacter.PlayTaunt(), Vector2.zero);
+        if(tauntCounter >= tauntCooldown)
+        {
+            if (prevState.DPad.Down == ButtonState.Pressed && currState.DPad.Down == ButtonState.Released)
+            {
+                tauntCounter = 0;
+                AudioSource.PlayClipAtPoint(playerCharacter.PlayTaunt(), Vector2.zero, GameManager.inst.tauntVol);
+            }
+        }
     }
+
+    public float GetHealth()
+	{
+		return health;
+	}
 
 	public void OnCollisionEnter2D(Collision2D col)
 	{
@@ -263,7 +285,12 @@ public class Vehicle : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 
-		AudioSource.PlayClipAtPoint(collisionSound, Vector2.zero);
-        AudioSource.PlayClipAtPoint(playerCharacter.PlayHurt(), Vector2.zero);
+        if(collisionCounter >= collisionCooldown)
+        {
+            collisionCooldown = 0;
+            AudioSource.PlayClipAtPoint(collisionSound, Vector2.zero, GameManager.inst.collisionVol);
+        }
+
+        AudioSource.PlayClipAtPoint(playerCharacter.PlayHurt(), Vector2.zero, GameManager.inst.hurtVol);
 	}
 }
