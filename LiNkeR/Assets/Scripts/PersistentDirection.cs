@@ -8,6 +8,7 @@ public class PersistentDirection : MonoBehaviour {
 	public bool[] choosen = new bool[4];
 	GamePadState[] prevState = new GamePadState[4];
 	GamePadState[] curState = new GamePadState[4];
+    public GameObject title;
 
 	float timer = 4f;
 	float counter = 0.0f;
@@ -88,6 +89,7 @@ public class PersistentDirection : MonoBehaviour {
 
 	void DoTimer()
 	{
+        title.SetActive(false);
 		counter += Time.deltaTime;
 		if (counter > 0f && counter < 1f)
 			SetText("3");
