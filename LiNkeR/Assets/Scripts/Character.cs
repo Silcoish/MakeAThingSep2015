@@ -11,6 +11,7 @@ public class Character : MonoBehaviour {
 	public List<AudioClip> die;
 	public List<AudioClip> bee;
 	public List<AudioClip> hurt;
+    public List<AudioClip> announcer;
     public AudioClip backgroundMusic;
 
 	public float speed;
@@ -49,8 +50,13 @@ public class Character : MonoBehaviour {
 		return bee[Random.Range(0, bee.Count)];
 	}
 
-	public AudioClip PlayHurt()
-	{
-		return hurt[Random.Range(0, hurt.Count)];
-	}
+    public AudioClip PlayHurt()
+    {
+        return hurt[Random.Range(0, hurt.Count)];
+    }
+
+    public AudioClip PlayAnnouncer()
+    {
+        return hurt[Random.Range(0, announcer.Count)];
+    }
 }

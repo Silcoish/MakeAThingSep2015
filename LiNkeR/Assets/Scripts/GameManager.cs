@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour {
     public void SetComplete(Character pc)
     {
         if (racersComplete == 0)
-            AudioSource.PlayClipAtPoint(pc.PlayWin(), Vector2.zero);
+            AudioSource.PlayClipAtPoint(pc.PlayAnnouncer(), Vector2.zero);
 
         winOrder[racersComplete] = pc;
 
