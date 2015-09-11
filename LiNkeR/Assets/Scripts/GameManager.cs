@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour {
     public Character[] winOrder = new Character[4];
     public int racersComplete = 0;
 
+    public AudioCrossfade audioCrossFade;
+
     public bool announcedFinalLap = false;
     public AudioClip finalLapSound;
 
